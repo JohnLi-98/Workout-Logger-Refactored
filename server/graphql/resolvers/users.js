@@ -1,8 +1,8 @@
-const { UserInputError } = require("apollo-server");
+const { UserInputError, addErrorLoggingToSchema } = require("apollo-server");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { validateRegisterInput } = require("../../utils/validators");
+const { validateLoginInput, validateRegisterInput } = require("../../utils/validators");
 const User = require("../../models/User");
 const { SECRET_KEY } = require('../../config');
 
@@ -16,14 +16,47 @@ function generateToken(user) {
 
 module.exports = {
     Mutation: {
+        async login(
+            _,
+            {
+                loginInput: { username, password }
+            }
+        ) {
+            // Validates user inputs - Uses function from validators file
+            const { errors, valid } = validateLoginInput(username, password);
+            if(!valid) {
+                throw new UserInputError('Errors', { errors });
+            }
+            
+            // Find user in database by the username passed in
+            const user = await User.findOne({ username });
+            if(!user) {
+                errors.general = 'User not found';
+                throw new UserInputError('User not found', { errors });
+            }
+
+            const match = await bcrypt.compare(password, user.password);
+            if(!match) {
+                errors.general = 'Wrong credentials';
+                throw new UserInputError('Wrong credentials', { errors });
+            }
+
+            // If validation and authentication check out, create a token and return this
+            const token = generateToken(user);
+            return {
+                ...user._doc,
+                id: user._id,
+                token
+            };
+        },
         async register(
             _,
             {
                 registerInput: { username, email, password, confirmPassword }
             }
         ) {
-            // Validate User Inputs - Uses function from validators file
-            const { valid, errors } = validateRegisterInput(username, email, password, confirmPassword);
+            // Validate user inputs - Uses function from validators file
+            const { errors, valid } = validateRegisterInput(username, email, password, confirmPassword);
             if(!valid) {
                 throw new UserInputError("Errors", { errors })
             }
