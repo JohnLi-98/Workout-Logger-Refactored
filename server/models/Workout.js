@@ -6,15 +6,8 @@ const workoutSchema = new Schema({
     createdAt: Number,
     exercises: [
         {
-            exerciseName: String,
-            sets: [
-                {
-                    weight: Number,
-                    reps: Number,
-                    createdAt: Number,
-                    notes: String
-                }
-            ]
+            type: Schema.Types.ObjectId,
+            ref: "Exercise"
         }
     ],
     notes: String,

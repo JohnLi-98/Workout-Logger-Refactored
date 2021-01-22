@@ -21,12 +21,49 @@ module.exports = gql`
         confirmPassword: String!
     }
 
+    type Set {
+        id: ID!
+        weight: Float!
+        reps: Int!
+        createdAt: Float!
+        notes: String
+    }
+
+    input LogSetInput {
+        exerciseName: String!
+        weight: Float!
+        reps: Int!
+        notes: String
+    }
+
+    type Exercise {
+        id: ID!
+        exerciseName: String!
+        username: String!
+        sets: [Set]!
+    }
+
+    type Workout {
+        id: ID!
+        workoutName: String
+        username: String!
+        notes: String
+        exercises: [Exercise]!
+    }
+
     type Query {
-        helloWorld: String
+        getAllExerciseLogs: [Exercise]
+        getExerciseLog(exerciseId: ID!): Exercise
+        getAllWorkoutLogs: [Workout]
+        getWorkoutLog(workoutId: ID!): Workout
+        getMostRecentWorkout: [Workout]
     }
 
     type Mutation {
         login(loginInput: LoginInput): User!
         register(registerInput: RegisterInput) : User!
+        logSet(logSetInput: LogSetInput): Set!
+        deleteSet(exerciseId: ID!, setId: ID!): Exercise!
+        addExercise(exerciseName: String!): Exercise
     }
 `
