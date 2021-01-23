@@ -41,6 +41,7 @@ export default function Register(props) {
     showPassword: false,
     showConfirmedPassword: false,
   });
+
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
       props.history.push("/");
