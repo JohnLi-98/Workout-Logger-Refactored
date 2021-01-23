@@ -52,12 +52,6 @@ export default function Register(props) {
     variables: values,
   });
 
-  /*
-    function registerUser() {
-        addUser();
-    }
-    */
-
   return (
     <Container maxWidth="md">
       <h1>This is the register page</h1>
