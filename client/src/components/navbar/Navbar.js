@@ -13,7 +13,6 @@ const styles = makeStyles({
     navbar: {
         backgroundColor: '#7289da',
         height: '80px',
-
     },
     navbarDisplayFlex: {
         display: 'flex',

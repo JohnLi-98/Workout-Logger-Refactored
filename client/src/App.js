@@ -15,7 +15,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <Container maxWidth="lg">
+        <Container maxWidth="lg" style={{paddingTop: "30px"}}>
           <Route exact path="/" component={Home} />
           <Route exact path="/account/login" component={Login} />
           <Route exact path="/account/register" component={Register} />

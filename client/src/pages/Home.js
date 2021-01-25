@@ -7,8 +7,6 @@ import UnauthenticatedHome from "../components/home-content/UnauthenticatedHome"
 export default function Home() {
   const { user } = useContext(AuthContext);
 
-  const content = user ? <AuthenticatedHome /> : (
-    <UnauthenticatedHome />
-  );
+  const content = user ? <AuthenticatedHome user={user} /> : <UnauthenticatedHome />;
   return content;
 }
