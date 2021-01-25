@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import {
+  Backdrop,
   Button,
+  CircularProgress,
   Container,
   FormControl,
   Grid,
@@ -26,8 +28,21 @@ export default function Login(props) {
   const classes = formStyles();
   const context = useContext(AuthContext);
 
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+    console.log("backdrop closing");
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+    console.log("backdrop");
+  };
+
   const [errors, setErrors] = useState({});
-  const loginUserCallback = () => loginUser();
+  const loginUserCallback = () => {
+    handleToggle();
+    loginUser();
+  };
   const { onChange, onSubmit, passwordVisibility, values } = useForm(
     loginUserCallback,
     {
@@ -37,21 +52,24 @@ export default function Login(props) {
     }
   );
 
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, { data: { login: userData }}) {
-        context.login(userData);
-        props.history.push("/");
+  const [loginUser] = useMutation(LOGIN_USER, {
+    update(_, { data: { login: userData } }) {
+      context.login(userData);
+      props.history.push("/");
     },
     onError(err) {
-        console.log(err);
-        setErrors(err.graphQLErrors[0].extensions.errors);
+      handleClose();
+      setErrors(err.graphQLErrors[0].extensions.errors);
     },
-    variables: values
-});
+    variables: values,
+  });
 
   return (
     <Container maxWidth="md">
-      <h1>This is the login page</h1>
+      <div className={classes.heading}>
+        <h1>LOGIN</h1>
+      </div>
+
       <form
         onSubmit={onSubmit}
         className={classes.form}
@@ -142,6 +160,10 @@ export default function Login(props) {
           </div>
         )}
       </form>
+
+      <Backdrop className={classes.backdrop} open={open}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }
