@@ -58,3 +58,23 @@ export const LOG_SET = gql`
     }
   }
 `;
+
+export const FETCH_WORKOUT_LOGS = gql`
+  {
+    getAllWorkoutLogs {
+      id
+      workoutName
+      createdAt
+      notes
+      exercises {
+        exerciseName
+        sets {
+          weight
+          reps
+          createdAt
+          notes
+        }
+      }
+    }
+  }
+`;

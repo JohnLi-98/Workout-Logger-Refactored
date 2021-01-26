@@ -31,11 +31,9 @@ export default function Login(props) {
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
-    console.log("backdrop closing");
   };
   const handleToggle = () => {
     setOpen(!open);
-    console.log("backdrop");
   };
 
   const [errors, setErrors] = useState({});

@@ -47,6 +47,7 @@ module.exports = gql`
         id: ID!
         workoutName: String
         username: String!
+        createdAt: Float!
         notes: String
         exercises: [Exercise]!
     }

@@ -69,6 +69,8 @@ module.exports = {
                 console.log("created new workout");
             }
 
+            return set;
+
             /*
             const found = workout.exercises.some(
                 (el) => el.exerciseName === exerciseName
