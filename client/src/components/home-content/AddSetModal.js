@@ -83,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddSetModal() {
   const classes = useStyles();
-
+  const [errors, setErrors] = useState({});
+  
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -94,7 +95,6 @@ export default function AddSetModal() {
     setOpen(false);
   };
 
-  const [errors, setErrors] = useState({});
   //const registerSet = () => logSet();
   const { onChange, onSubmit, resetFormValues, values } = useForm(registerSet, {
     exerciseName: "",
